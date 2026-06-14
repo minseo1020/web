@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Ko Minseo</title>
+    <style>
+        /* 공통 리셋 및 헤더 고정 스타일 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #333333; line-height: 1.7; padding-top: 80px;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; height: 80px;
+            background-color: rgba(255, 255, 255, 0.98); border-bottom: 1px solid #e2e8f0;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 8%; z-index: 1000; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+            backdrop-filter: blur(8px);
+        }
+        
+        .logo { font-size: 1.6rem; font-weight: 800; color: #2c5688; letter-spacing: -0.5px; }
+
+        nav ul { display: flex; list-style: none; gap: 40px; }
+        nav ul li a { font-size: 1.15rem; font-weight: 500; color: #4b5563; }
+        nav ul li a:hover { color: #2c5688; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 60px 20px; }
+
+        footer { text-align: center; padding: 40px 0; color: #9ca3af; font-size: 0.95rem; border-top: 1px solid #e5e7eb; background-color: #ffffff; margin-top: 80px; }
+
+        /* 프로필 카드 */
+        .profile-card {
+            background: #ffffff; border-radius: 18px; padding: 34px;
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.06), 0 10px 20px -6px rgba(0, 0, 0, 0.05);
+            display: grid; grid-template-columns: 0.5fr 1.5fr; gap: 70px; margin-top: 40px;
+        }
+        
+        .profile-img {
+            background-color: #f1f5f9;
+            border-radius: 14px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .intro-text h2 { color: #2c5688; margin-bottom: 30px; font-size: 1.5rem; font-weight: 800; line-height: 1.4; word-break: keep-all; }
+        .intro-text p { color: #4b5563; font-size: 1.12rem; text-align: justify; word-break: keep-all; }
+        .keywords { display: flex; gap: 18px; margin-top: 50px; flex-wrap: wrap; }
+        .keyword-tag { background-color: #eff6ff; color: #2c5688; padding: 10px 22px; border-radius: 50px; font-weight: 600; font-size: 1rem; }
+
+        /* 기존 01, 02, 03 섹션 (흰색 박스) */
+        .story-section { margin-top: 60px; background: #ffffff; border-radius: 18px; padding: 60px 55px; box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.06); }
+        .story-section h3 { font-size: 1.8rem; color: #2c5688; margin-bottom: 70px; font-weight: 800; border-left: 5px solid #2c5688; padding-left: 15px; }
+        .story-block { 
+            display: grid; grid-template-columns: 1fr 2.5fr; gap: 40px;
+            margin-bottom: 50px; padding-bottom: 50px; border-bottom: 1px solid #f1f5f9; 
+        }
+        .story-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .story-block .block-title { font-size: 1.35rem; color: #1f2937; font-weight: 800; line-height: 1.4; }
+        .story-block .block-title span { color: #3b82f6; font-size: 1rem; font-weight: 800; display: block; margin-bottom: 8px; letter-spacing: 1.5px; }
+        .story-block .block-desc { color: #4b5563; font-size: 1.12rem; text-align: justify; line-height: 1.8; }
+
+        .experience-list { list-style: none; }
+        .experience-list li {
+            display: grid; grid-template-columns: 110px 1fr; margin-bottom: 30px; font-size: 1.05rem; column-gap: 30px;
+        }
+
+        .experience-list li:last-child { margin-bottom: 0; }
+        .experience-list li .date { font-weight: 800; color: #3b82f6; }
+        .experience-list li .desc { font-weight: 800; color: #1f2937; margin-bottom: 8px; }
+        .experience-list li .detail { display: block; font-size: 0.98rem; color: #6b7280; line-height: 1.9; }
+
+        /* 하단 아코디언 카드 섹션 (파란색 배경) */
+        .about-section {
+            background-color: #2c5688; border-radius: 18px; padding: 100px 0; margin-top: 60px;
+        }
+        .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .accordion-content { width: 100%; background-color: transparent; }
+
+        .accordion { display: flex; width: 100%; gap: 15px; list-style: none; }
+
+        .accordion li {
+            flex: 1; height: 600px; background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px;
+            cursor: pointer; position: relative; padding: 40px 30px;
+            display: flex; flex-direction: column; justify-content: flex-start;
+            overflow: hidden; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .accordion li * { transition: all 0.3s ease; }
+        .accordion li:hover {
+            flex: 2.5; background-color: #ffffff; box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        .accordion li .number {
+            font-size: 5rem; font-weight: 800; color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 20px; line-height: 1;
+        }
+        .accordion li:hover .number { color: #2c5688; }
+        .accordion li .info { color: #ffffff; opacity: 0.5; }
+        .accordion li:hover .info { color: #333333; opacity: 1; }
+        .info h2 {
+            font-size: 1.5rem; margin-bottom: 1.5rem; letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 10px;
+        }
+        .accordion li:hover .info h2 { border-bottom-color: #2c5688; }
+        .info p { font-size: 0.95rem; line-height: 1.6; }
+        .info p strong { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+        .accordion li:hover .info p strong { color: #2c5688; }
+
+        .skill-list { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+        .skill-list li {
+            display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+            padding: 12px 20px; border-radius: 25px; background-color: rgba(255, 255, 255, 0.1);
+            border: 1px dashed rgba(255, 255, 255, 0.2); font-size: 0.95rem;
+        }
+        .accordion li:hover .skill-list li {
+            background-color: rgba(44, 86, 136, 0.85); border-color: rgba(44, 86, 136, 0.2); color: #ffffff;
+        }
+        .accordion li:hover .skill-list li strong {
+            color: #51cadf; background-color: rgba(255, 255, 255, 0.15);
+        }
+        .skill-list li span { font-size: 1rem; font-weight: 500; }
+        .accordion li:hover .skill-list li strong,
+        .accordion li:hover .info p strong {
+            background-color: transparent; padding: 0; border-radius: 0;
+        }
+    </style>
+
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html">Ko Minseo</a></div>
+        <nav>
+            <ul>
+                <li><a href="about.html" style="color: #2c5688; font-weight: 700;">About</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 style="font-size: 2.8rem; color: #1e3a8a; font-weight: 800; letter-spacing: -0.5px;">About Me</h1>
+        
+        <div class="profile-card">
+            <div class="profile-img">
+                <img src="img/profile.jpeg" alt="프로필 사진" style="width: 100%; height: 100%; object-fit: cover; border-radius: 14px;">
+            </div>
+
+            <div class="intro-text">
+                <h2>"디자인에 논리를 더하다 :<br>가설을 세우고, 데이터로 미학을 증명하는 과정을 즐깁니다."</h2>
+                <p>직감이나 아이디어에 의존하기보다, 정량적인 데이터 분석과
+                    <br> 유저 행동 패턴 파악을 통해 확실한 퍼포먼스를 내는 마케팅 관점을 지향합니다.
+                    <br><br>빠르게 변화하는 디지털 환경 속에서도 새로운 지식과 직무 역량을 유연하게 습득하며, <br>주어진 역할에 책임감을 가지고 임하겠습니다.
+                    <br>이러한 분석적 접근과 집요함을 바탕으로 조직 내에서 신뢰할 수 있는 성과를 함께 만들어가겠습니다.
+                </p>
+                
+                <div class="keywords">
+                    <span class="keyword-tag">#디지털마케팅</span>
+                    <span class="keyword-tag">#데이터분석</span>
+                    <span class="keyword-tag">#웹디자인</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="story-section">
+            <h3>Philosophy & Experience</h3>
+            
+            <div class="story-block">
+                <div class="block-title">
+                    <span>01. PROFILE</span>
+                    자기소개
+                </div>
+                <div class="block-desc">
+                    데이터 속에서 비즈니스의 성장 포인트를 찾아내는 디지털 마케터입니다. <br>트렌드에 의존하기보다 유저의 행동 패턴과 정량적 데이터를 분석하여,
+                    <br>확실한 성과로 연결 짓는 논리적인 문제 해결 과정을 지향합니다.
+                </div>
+            </div>
+
+            <div class="story-block">
+                <div class="block-title">
+                    <span>02. MINDSET</span>
+                    직무 마인드셋
+                </div>
+                <div class="block-desc">
+                    <strong>'모든 기획은 데이터로 증명되어야 한다'</strong>는 철학을 가지고 있습니다.
+                    <br> 퍼널 분석을 통해 병목 구간을 빠르게 진단하고, A/B 테스트로 리스크를 줄이며 <br>가장 효율적인 그로스 포인트를 찾아내는 민첩성을 중요하게 생각합니다.
+                </div>
+            </div>
+            
+            <div class="story-block">
+                <div class="block-title">
+                    <span>03. EXPERIENCE & AWARD</span>
+                    경험 및 수상
+                </div>
+                <div class="block-desc">
+                    <ul class="experience-list">
+                        <li>
+                            <span class="date">2026. 06. 04</span>
+                            <div>
+                                <p class="desc">제2회 인하공업전문대학 디지털마케팅공학과 교육성과 전시회</p>
+                                <span class="detail">앱/웹사이트 기획</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="date">2026. 06. 02</span>
+                            <div>
+                                <p class="desc">인천서부경찰서 산학협력 프로젝트</p>
+                                <span class="detail">가정폭력 영상 기획 및 제작</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="date">2026. 04. 01</span>
+                            <div>
+                                <p class="desc">이감 산학협력 프로젝트</p>
+                                <span class="detail">릴스 기획 및 제작</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="date">2025. 06. 30</span>
+                            <div>
+                                <p class="desc">제1회 인하공업전문대학 디지털마케팅공학과 교육성과 전시회</p>
+                                <span class="detail">금상 수상</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <div class="section-inner">
+                <div class="accordion-content">
+                    <ul class="accordion">
+                        <li>
+                            <div class="number">A</div>
+                            <div class="info">
+                                <h2>Education</h2>
+                                <p>
+                                    <strong>2025.03 - 2027.02</strong><br> 인하공업전문대학 디지털마케팅공학과<br><br>
+                                    <strong>2022.03 - 2025.01</strong><br> 인천여자상업고등학교 IT크리에이터과 졸업
+                                </p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="number">B</div>
+                            <div class="info">
+                                <h2>CERTIFICATES</h2>
+                                <p>
+                                    <strong>2023.08.31</strong><br> ITQ Excel (A)<br><br>
+                                    <strong>2022.08.12</strong><br> 그래픽기술자격 2급
+                                </p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="number">C</div>
+                            <div class="info">
+                                <h2>Tools</h2>
+                                <ul class="skill-list">
+                                    <li><span>Photoshop</span><strong>[상]</strong></li>
+                                    <li><span>Figma</span><strong>[상]</strong></li>
+                                    <li><span>Illustrator</span><strong>[중]</strong></li>
+                                    <li><span>Premiere Pro</span><strong>[중]</strong></li>
+                                    <li><span>After Effects</span><strong>[중]</strong></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer><p>&copy; 2026 Ko Minseo. All rights reserved.</p></footer>
+</body>
+</html>

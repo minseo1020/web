@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Ko Minseo</title>
+    <style>
+        /* 공통 리셋 및 헤더 고정 스타일 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #333333; line-height: 1.7; padding-top: 80px;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; height: 80px;
+            background-color: rgba(255, 255, 255, 0.98); border-bottom: 1px solid #e2e8f0;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 8%; z-index: 1000; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+            backdrop-filter: blur(8px);
+        }
+        
+        .logo { font-size: 1.6rem; font-weight: 800; color: #2c5688; letter-spacing: -0.5px; }
+
+        nav ul { display: flex; list-style: none; gap: 45px; }
+        nav ul li a { font-size: 1.1rem; font-weight: 600; color: #475569; }
+        nav ul li a:hover { color: #2c5688; }
+        
+        /* 여백 조정 */
+        .container { width: 90%; max-width: 1400px; margin: 0 auto; padding: 60px 0; }
+        footer { text-align: center; padding: 50px 0; color: #94a3b8; font-size: 0.95rem; border-top: 1px solid #e2e8f0; background-color: #ffffff; margin-top: 80px; }
+
+        /* 포트폴리오 섹션 */
+        .portfolio-section h2 {
+            font-size: 2.5rem; 
+            color: #2c5688; 
+            font-weight: 800; 
+            margin-bottom: 70px; 
+            letter-spacing: -0.5px;
+            border-left: 5px solid #2c5688; 
+            padding-left: 15px; 
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        /* 프로젝트 카드 스타일 (클릭 가능하도록 커서 포인터 추가) */
+        .project-card {
+            background-color: #ffffff;
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 이미지 비율 유지 및 꽉 차게 자르기 설정 */
+        .project-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-bottom: 1px solid #e2e8f0;
+            display: block;
+        }
+
+        .project-info {
+            padding: 30px;
+        }
+
+        .project-info h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 15px;
+            word-break: keep-all;
+        }
+
+        .project-info p {
+            font-size: 1rem;
+            color: #475569;
+            line-height: 1.8;
+            word-break: keep-all;
+        }
+
+        /* 팝업창(모달) 스타일 */
+        .modal {
+            display: none; /* 평소에는 안 보임 */
+            position: fixed; 
+            z-index: 2000; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0, 0, 0, 0.6); /* 반투명 배경 */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: auto;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 750px;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: #64748b;
+            font-size: 2.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #0f172a;
+        }
+
+        .modal-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain; /* 팝업에서는 이미지 전체가 나오도록 contain 사용 */
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .modal-text h3 {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+
+        .modal-text p {
+            font-size: 1.1rem;
+            color: #334155;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html">Ko Minseo</a></div>
+        <nav>
+            <ul>
+                <li><a href="about.html" style="color: #2c5688; font-weight: 700;">About</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="portfolio-section">
+            <h2>Projects</h2>
+            <div class="project-grid">
+                <div class="project-card" onclick="openModal('img/insta2.jpg', '인스타그램 대외활동 계정 운영','과제, 학교생활 기록하는 계정')">
+                    <img src="img/insta.jpeg" alt="인스타" class="project-img">
+                    <div class="project-info">
+                        <h3>인스타그램 대외활동 계정 운영</h3>
+                        <p>대외활동, 대학생활, 과제, 영상편집 등 대학생활에 관한 게시물을 올리는 인스타그램 계정</p>
+                    </div>
+                </div>
+                
+                <div class="project-card" onclick="openModal('img/ich2.png', '인천 내 관광지를 소개하는 앱 기획', '인천 내 관광지, 맛집, 가게를 소개하는 앱')">
+                    <img src="img/ich.jpg" alt="인천" class="project-img">
+                    <div class="project-info">
+                        <h3>인천 내 관광지를 소개하는 앱 기획</h3>
+                        <p>인천 내 관광지, 맛집, 가게를 소개하는 앱 기획</p>
+                    </div>
+                </div>
+                
+                <div class="project-card" onclick="openModal('img/app2.jpeg', '앱/웹사이트 기획 및 전시회', '원데이 클래스 예약 앱 [ Class:B ] 기획')">
+                    <img src="img/app.jpg" alt="원데이클래스" class="project-img">
+                    <div class="project-info">
+                        <h3>앱/웹사이트 기획 및 전시회</h3>
+                        <p>기존 앱/웹사이트에 대한 조사와 페인포인트/솔루션을 찾고 기능 개선, UX/UI 디자인 개선하여 앱/웹사이트 기획</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img id="modalImg" src="" alt="상세 이미지" class="modal-img">
+            <div class="modal-text">
+                <h3 id="modalTitle"></h3>
+                <p id="modalDesc"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer><p>&copy; 2026 Ko Minseo. All rights reserved.</p></footer>
+
+    <script>
+        // 팝업창 열기 함수
+        function openModal(imgSrc, title, desc) {
+            const modal = document.getElementById("projectModal");
+            document.getElementById("modalImg").src = imgSrc;
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("modalDesc").innerText = desc;
+            
+            modal.style.display = "flex"; // 팝업 띄우기
+        }
+
+        // 팝업창 닫기 함수
+        function closeModal() {
+            const modal = document.getElementById("projectModal");
+            modal.style.display = "none"; // 팝업 닫기
+        }
+
+        // 팝업창 바깥 영역(배경)을 클릭했을 때도 닫히게 처리
+        window.onclick = function(event) {
+            const modal = document.getElementById("projectModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
